@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Laundry.Models.OrderDetail>
+
+<h2>Order Details</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Code</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Appointment Date</th>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Weight</th>
+                <th>Price</th>
+                <!-- Thêm các cột khác nếu cần -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderDetail in Model)
+            {
+                <tr>
+                    <td>@orderDetail.OrderCode</td>
+                    <td>@orderDetail.FullName</td>
+                    <td>@orderDetail.PhoneNumber</td>
+                    <td>@orderDetail.Address</td>
+                    <td>@orderDetail.AppointmentDate</td>
+                    <td>@orderDetail.Product</td>
+                    <td>@orderDetail.Quantity</td>
+                    <!-- Thêm các ô khác nếu cần -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order details found.</p>
+}

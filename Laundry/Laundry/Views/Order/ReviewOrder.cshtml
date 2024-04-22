@@ -1,0 +1,126 @@
+﻿@model Laundry.Controllers.OrderViewModel
+
+<style>
+    /* CSS styles here */
+    .order-container {
+        margin: 50px auto;
+        max-width: 800px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .order-container h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+    .customer-info,
+    .appointment-info,
+    .laundry-item-info {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .order-item p {
+        margin: 5px 0;
+    }
+
+    .confirm-button {
+        text-align: center;
+    }
+
+        .confirm-button button {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .confirm-button button:hover {
+                background-color: #0056b3;
+            }
+</style>
+
+<div class="order-container">
+    <h1>Review Order</h1>
+
+    <div class="customer-info">
+        <h2>Customer Information</h2>
+        <p><strong>Full Name:</strong> @Model.FullName</p>
+        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+    </div>
+
+    <div class="appointment-info">
+        <h2>Appointment Information</h2>
+        <p><strong>Appointment Date:</strong> @Model.AppointmentDate</p>
+    </div>
+
+    <div class="laundry-item-info">
+        <h2>Laundry Item Information</h2>
+        @if (Model.SelectedProducts != null && Model.Quantities != null)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var selectedProductId in Model.SelectedProducts)
+                    {
+                        var selectedItem = Model.LaundryItems.FirstOrDefault(item => item.Id == selectedProductId);
+                        var quantity = Model.Quantities.ContainsKey(selectedProductId) ? Model.Quantities[selectedProductId] : 0;
+                        if (selectedItem != null)
+                        {
+                            <tr>
+                                <td>@selectedItem.Product</td>
+                                <td>@String.Format("{0:C}", selectedItem.Price)</td>
+                                <td>@quantity</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td>Total:@String.Format("{0:C}", Model.TotalPrice)</td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <p>No selected products.</p>
+        }
+    </div>
+
+    <div class="confirm-button">
+        <form asp-controller="LaundryItems" asp-action="PlaceOrder" method="post">
+            <button type="submit" class="btn btn-confirm">Confirm Order</button>
+        </form>
+    </div>
+</div>

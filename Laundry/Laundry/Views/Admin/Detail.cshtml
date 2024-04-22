@@ -1,0 +1,167 @@
+﻿@model IEnumerable<Laundry.Models.OrderDetail>
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<style>
+    .table-data {
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .pending {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .process {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .completed {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .custom-form {
+        margin-top: 20px;
+    }
+
+    .custom-button {
+        padding: 12px 24px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .custom-button:hover {
+            background-color: #45a049;
+        }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: calc(100% - 24px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: #ccc;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+</style>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>Order Details</h3>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Code</th>
+                    <th>Customer Name</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.OrderCode</td>
+                        <td>@order.FullName</td>
+                        <td>@order.Address</td>
+                        <td>@order.PhoneNumber</td>
+                        <td>@order.Product</td>
+                        <td>@order.Quantity</td>
+                        <td>@order.Price</td>
+                        <td>@order.AppointmentDate</td>
+                        <td>
+                            @if (order.Status == Laundry.Models.OrderStatus.WaitingForDelivery)
+                            {
+                                <span class="status pending">@order.Status</span>
+                            }
+                            else if (order.Status == Laundry.Models.OrderStatus.Processing)
+                            {
+                                <span class="status process">@order.Status</span>
+                            }
+                            else if (order.Status == Laundry.Models.OrderStatus.ShippedToYou)
+                            {
+                                <span class="status completed">@order.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (Model.Any(order => order.Status != Laundry.Models.OrderStatus.ShippedToYou))
+        {
+            <form class="custom-form" method="post" action="@Url.Action("UpdateStatus", "Admin")">
+                @foreach (var order in Model)
+                {
+                    <input type="hidden" name="orderId" value="@order.Id" />
+                    <input type="hidden" name="status" value="@order.Status" />
+                }
+                <button type="submit" class="custom-button">Update Status</button>
+            </form>
+        }
+        <form class="custom-form" method="post" action="@Url.Action("UpdateOrder", "Admin")">
+            @foreach (var order in Model)
+            {
+                <input type="hidden" name="orderId" value="@order.Id" />
+                <div>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="@order.Quantity" />
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="text" name="price" id="price" value="@order.Price" />
+                </div>
+                <hr />
+            }
+            <button type="submit" class="custom-button">Update Quantity & Price</button>
+        </form>
+    </div>
+</div>

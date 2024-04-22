@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Laundry.Models.LaundryItem>
+
+
+@{
+     Layout = null;
+}
+<style>
+    /* AddProduct form styling */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    /* Table styling */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+    /* Optional: Add some margin to the top of the table */
+    .table {
+        margin-top: 20px;
+    }
+
+</style>
+
+<h1>Add Product</h1>
+
+<form asp-action="AddProduct" method="post">
+    <div class="form-group">
+        <label>Product Name:</label>
+        <input name="Product" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Price:</label>
+        <input name="Price" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Product</button>
+</form>
+
+<hr />
+
+<h1>All Products</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Actions</th> <!-- Add this column for edit and delete actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product</td>
+                <td>$@item.Price</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

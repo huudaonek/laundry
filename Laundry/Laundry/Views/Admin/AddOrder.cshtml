@@ -1,0 +1,66 @@
+﻿@model Laundry.Models.OrderDetail
+
+@{
+    ViewData["Title"] = "Add Order";
+}
+
+<h2>Add New Order</h2>
+
+<form asp-action="AddOrder" method="post">
+    <div class="form-group">
+        <label asp-for="OrderCode">Order Code:</label>
+        <input asp-for="OrderCode" class="form-control" />
+        <span asp-validation-for="OrderCode" class="text-danger"></span>
+    </div>
+    <!-- Add other fields here (FullName, PhoneNumber, Address, AppointmentDate, Product, Quantity, Price, etc.) -->
+    <!-- FullName Field -->
+    <div class="form-group">
+        <label asp-for="FullName">Full Name:</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <!-- PhoneNumber Field -->
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Phone Number:</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <!-- Address Field -->
+    <div class="form-group">
+        <label asp-for="Address">Address:</label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <!-- AppointmentDate Field -->
+    <div class="form-group">
+        <label asp-for="AppointmentDate">Appointment Date:</label>
+        <input asp-for="AppointmentDate" class="form-control" />
+        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+    </div>
+
+    <!-- Product Field -->
+    <div class="form-group">
+        <label asp-for="Product">Product:</label>
+        <input asp-for="Product" class="form-control" />
+        <span asp-validation-for="Product" class="text-danger"></span>
+    </div>
+
+    <!-- Quantity Field -->
+    <div class="form-group">
+        <label asp-for="Quantity">Quantity:</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <!-- Price Field -->
+    <div class="form-group">
+        <label asp-for="Price">Price:</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <!-- End of additional fields -->
+    <button type="submit" class="btn btn-primary">Add Order</button>
+</form>

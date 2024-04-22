@@ -1,0 +1,57 @@
+﻿@model Laundry.Models.OrderDetail
+
+<style>
+    .container1 {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #4CAF50;
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .order-info {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+    }
+
+        .order-info p {
+            font-weight: bold;
+        }
+</style>
+
+<div class="container1">
+    <h2>Thank you for your order!</h2>
+
+    <div class="order-info">
+        <p>Order Code: @Model.OrderCode</p>
+        <p>Full Name: @Model.FullName</p>
+        <p>Phone Number: @Model.PhoneNumber</p>
+        <p>Address: @Model.Address</p>
+        <p>Appointment Date: @Model.AppointmentDate</p>
+        <p>Product: @Model.Product</p>
+        <p>Price: $@Model.Price</p>
+        <p>Status: @Model.Status</p>
+    </div>
+
+    <p>Please remember your <strong>Order Code</strong>  to conveniently view your order</p>
+</div>

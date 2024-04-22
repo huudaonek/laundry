@@ -1,0 +1,130 @@
+﻿@using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<style>
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+        display: inline-block;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #f0f0f0;
+    }
+
+    .pagination .active {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+    }
+
+    .bx.bx-filter {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+        .bx.bx-filter a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            color: #555;
+            text-decoration: none;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+            .bx.bx-filter a:hover {
+                color: #007bff;
+                background-color: rgba(0, 123, 255, 0.1);
+                border-color: #007bff;
+            }
+
+            .bx.bx-filter a.active {
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+</style>
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>All Orders</h3>
+            <i class='bx bx-search'></i>
+            <i class='bx bx-filter'>
+                <a href="@Url.Action("OrdersByStatus", new { status = OrderStatus.WaitingForDelivery, page = 1 })">Waiting For Delivery</a>
+                <a href="@Url.Action("OrdersByStatus", new { status = OrderStatus.Processing, page = 1 })">Processing</a>
+                <a href="@Url.Action("OrdersByStatus", new { status = OrderStatus.ShippedToYou, page = 1 })">Shipped To You</a>
+            </i>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                    <th>Product</th> <!-- Thêm cột sản phẩm -->
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>
+                            <p>@order.FullName</p>
+                        </td>
+                        <td>@order.AppointmentDate</td>
+                        <td>
+                            @if (order.Status == OrderStatus.WaitingForDelivery)
+                            {
+                                <span class="status pending">@order.Status</span>
+                            }
+                            else if (order.Status == OrderStatus.Processing)
+                            {
+                                <span class="status process">@order.Status</span>
+                            }
+                            else if (order.Status == OrderStatus.ShippedToYou)
+                            {
+                                <span class="status completed">@order.Status</span>
+                            }
+                        </td>
+                        <td>@order.Product</td> <!-- Hiển thị tên sản phẩm -->
+                        <td>
+                            <a href="@Url.Action("Detail", "Admin", new { orderId = order.Id })">Detail</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="pagination">
+            @if (ViewBag.HasPreviousPage)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.PageIndex - 1 })">Previous</a>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="@Url.Action("Index", new { page = i })">@i</a>
+            }
+
+            @if (ViewBag.HasNextPage)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.PageIndex + 1 })">Next</a>
+            }
+        </div>
+    </div>
+</div>
